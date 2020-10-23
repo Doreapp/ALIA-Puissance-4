@@ -24,24 +24,26 @@ gagnerLignes(J, G):- gagnerLigne(J, Y, G), Y>0, Y<7.
 
 % Regarder si le joueur J a gagnÃƒÂ©
 % 1. Les colonnes
-gagner(J, G):- gagnerColonne(J, G).
+gagner(J, G):- gagnerColonne(J, G),afficherGagnant(J).
 
 % 2. Les lignes
-gagner(J,G):- gagnerLignes(J,G).
+gagner(J,G):- gagnerLignes(J,G),afficherGagnant(J).
 
 % 3.1. Recherche les diagonales (type \) dans G
-gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Récup 4 colonnes
+gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Recup 4 colonnes
 		   element(I1,C1,J), % qui contiennent J
                    I2 is I1+1,
                    element(I2,C2,J),
                    I3 is I2+1,
 		   element(I3,C3,J),
+
                    I4 is I3+1,
 		   element(I4,C4,J).
-                   % Et chacun sont sur une même diagonale \
+                   % Et chacun sont sur une meme diagonale \
+
 
 % 3.2. Recherche les diagonales (type /) dans G
-gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Récup 4 colonnes
+gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Recup 4 colonnes
 		   element(I1,C1,J), % qui contiennent J
                    I2 is I1-1,
                    element(I2,C2,J),
@@ -49,7 +51,11 @@ gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Récup 4 colonnes
 		   element(I3,C3,J),
                    I4 is I3-1,
 		   element(I4,C4,J).
-                   % Et chacun sont sur une même diagonale /
+                   % Et chacun sont sur une meme diagonale /
+
+%Afficher gagnant
+afficherGagnant(J):- write("Le joueur "),write(J),write(" a gagne"),nl.
+
 
 % Affiche La grille L
 affiche([],L) :- afficheColonne(L,0,0).
@@ -63,7 +69,7 @@ afficheColonne([[H1|T1]|T],A,B) :- H1\==[],H1 == 0, write("."), append(T,[T1],L)
 
 
 
-% Compte le nombre N de de zÃ©ro dans L avec count(L,N)
+% Compte le nombre N de de zero dans L avec count(L,N)
 compter([],0).
 compter([0|T],N) :- compter(T,N1), N is N1 + 1.
 compter([X|T],N) :- X \== 0, compter(T,N).
@@ -77,7 +83,7 @@ ajouterEnFin(X,[H|L1],[H|L2]):- H\==0, ajouterEnFin(X,L1,L2).
 ajouter(C,_,C) :- compter(C,0).
 ajouter(C,X,A) :- compter(C,N), N \== 0,ajouterEnFin(X,C,A).
 
-% Q renvoi la liste passÃ© en premier paramÃƒÂ¨tre mais la colonne X est changÃ©e par la colonne C
+% Q renvoi la liste passÃ© en premier paramatre mais la colonne X est changÃ©e par la colonne C
 changeColonne([],_,_,G1,8,G1).
 changeColonne([H|T], X, C, G1, N,Q) :- N \== X, append(G1,[H],G2), N1 is N+1, changeColonne(T,X,C,G2,N1,Q).
 changeColonne([_|T], X, C, G1, X,Q) :- append(G1,[C],G2), N1 is X+1, changeColonne(T,X,C,G2,N1,Q).
@@ -117,13 +123,21 @@ joueRandom(Joueur, Grille, Index, Count, Colonne, Grille1) :- Count\==0,
     affiche(Grille1,[]).
 joueRandom(Joueur, Grille, _, 0, _, Grille1) :- heuristiqueRandom(Joueur, Grille, Grille1).
 
-% Crée la grille G1 à partir de G dans laquelle le joueur J à joué la
+
+% Cree la grille G1 a partir de G dans laquelle le joueur J a joue la
+
 % colonne L, si possible.
 jouerMove(J, G, L, G1) :- nth1(L,G,C), compter(C,Y), Y\==0, ajouter(C, J, C1), changeColonne(G,L,C1,[],1,G1).
 
 % la colonne C ferrai gagner le joueur J joue un move pour gagner si possible
+
 movePourGagner(Joueur, Grille, Grille1) :- jouerMove(Joueur, Grille, _, Grille1),
     gagner(Joueur, Grille1).
+
+% Check si la grille est complete
+finis([]) :- write("match nul!").
+finis([H|T]) :- compter(H,Y), Y==0, finis(T).
+
 
 
 
