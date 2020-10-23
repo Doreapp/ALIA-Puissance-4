@@ -115,7 +115,7 @@ heuristique2(G) :- movePourGagner(2, G, G1),
 heuristique2(G) :- movePourEmpecherGagner(2, 1, G, G1),
     write("2 joue pour empecher de gagner 1 : "), nl,
     affiche(G1,[]),
-    heuristique2(G1).
+    heuristique1(G1).
 
 heuristique2(G) :- heuristiqueRandom(2, G, G1),heuristique1(G1).
 
