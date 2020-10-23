@@ -24,10 +24,10 @@ gagnerLignes(J, G):- gagnerLigne(J, Y, G), Y>0, Y<7.
 
 % Regarder si le joueur J a gagnÃ©
 % 1. Les colonnes
-gagner(J, G):- gagnerColonne(J, G),afficherGagnant(J).
+gagner(J, G):- gagnerColonne(J, G).
 
 % 2. Les lignes
-gagner(J,G):- gagnerLignes(J,G),afficherGagnant(J).
+gagner(J,G):- gagnerLignes(J,G).
 
 % 3.1. Recherche les diagonales (type \) dans G
 gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Recup 4 colonnes
@@ -38,8 +38,7 @@ gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Recup 4 colonnes
 		   element(I3,C3,J),
 
                    I4 is I3+1,
-		   element(I4,C4,J),
-                   afficherGagnant(J).
+		   element(I4,C4,J).
                    % Et chacun sont sur une meme diagonale \
 
 
@@ -51,8 +50,7 @@ gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Recup 4 colonnes
                    I3 is I2-1,
 		   element(I3,C3,J),
                    I4 is I3-1,
-		   element(I4,C4,J),
-                   afficherGagnant(J).
+		   element(I4,C4,J).
                    % Et chacun sont sur une meme diagonale /
 
 %Afficher gagnant
@@ -96,7 +94,8 @@ heuristique1(G) :- gagner(1,G).
 heuristique1(G) :- gagner(2,G).
 heuristique1(G) :- movePourGagner(1, G, G1),
     write("1 joue pour gagner : "), nl,
-    affiche(G1,[]).
+    affiche(G1,[]),
+    afficherGagnant(1).
 heuristique1(G) :- heuristiqueRandom(1, G, G1),
     heuristique2(G1).
 % heuristique1(G) :- movePourGagner(1, G, G1, 1), write("1 joue pour
@@ -106,7 +105,8 @@ heuristique2(G) :- gagner(1,G).
 heuristique2(G) :- gagner(2,G).
 heuristique2(G) :- movePourGagner(2, G, G1),
     write("2 joue pour gagner : "), nl,
-    affiche(G1,[]).
+    affiche(G1,[]),
+    afficherGagnant(2).
 heuristique2(G) :- heuristiqueRandom(2, G, G1),heuristique1(G1).
 
 jouerJoueur1(G) :- write("Joue, J1 :"), read(L), nth1(L,G,C), ajouter(C, 1, C1), changeColonne(G,L,C1,[],1,G1), affiche(G1,[]), heuristique2(G1). % gagnant(), jouerJoueur2().
