@@ -96,6 +96,11 @@ heuristique1(G) :- movePourGagner(1, G, G1),
     write("1 joue pour gagner : "), nl,
     affiche(G1,[]),
     afficherGagnant(1).
+heuristique1(G) :- movePourEmpecherGagner(1, 2, G, G1),
+    write("1 joue pour empecher de gagner 2 : "), nl,
+    affiche(G1,[]),
+    heuristique2(G1).
+
 heuristique1(G) :- heuristiqueRandom(1, G, G1),
     heuristique2(G1).
 % heuristique1(G) :- movePourGagner(1, G, G1, 1), write("1 joue pour
@@ -107,6 +112,11 @@ heuristique2(G) :- movePourGagner(2, G, G1),
     write("2 joue pour gagner : "), nl,
     affiche(G1,[]),
     afficherGagnant(2).
+heuristique2(G) :- movePourEmpecherGagner(2, 1, G, G1),
+    write("2 joue pour empecher de gagner 1 : "), nl,
+    affiche(G1,[]),
+    heuristique2(G1).
+
 heuristique2(G) :- heuristiqueRandom(2, G, G1),heuristique1(G1).
 
 jouerJoueur1(G) :- write("Joue, J1 :"), read(L), nth1(L,G,C), ajouter(C, 1, C1), changeColonne(G,L,C1,[],1,G1), affiche(G1,[]), heuristique2(G1). % gagnant(), jouerJoueur2().
@@ -135,6 +145,10 @@ jouerMove(J, G, L, G1) :- nth1(L,G,C), compter(C,Y), Y\==0, ajouter(C, J, C1), c
 
 movePourGagner(Joueur, Grille, Grille1) :- jouerMove(Joueur, Grille, _, Grille1),
     gagner(Joueur, Grille1).
+
+movePourEmpecherGagner(JoueurJouant, JoueurAdverse, Grille, Grille1) :- jouerMove(JoueurAdverse, Grille, Coup, Grille2),
+    gagner(JoueurAdverse, Grille2),
+    jouerMove(JoueurJouant, Grille, Coup, Grille1).
 
 % Check si la grille est complete
 finis([]).
