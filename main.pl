@@ -137,7 +137,7 @@ movePourGagner(Joueur, Grille, Grille1) :- jouerMove(Joueur, Grille, _, Grille1)
     gagner(Joueur, Grille1).
 
 % Check si la grille est complete
-finis([]) :- write("match nul!").
+finis([]).
 finis([H|T]) :- compter(H,Y), Y==0, finis(T).
 
 
