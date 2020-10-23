@@ -56,7 +56,11 @@ affiche([H|T],L) :- reverse(H,R), append(L,[R],L2), affiche(T,L2).
 
 afficheColonne(_,_,6).
 afficheColonne(L,7,B) :- nl, B1 is B+1, afficheColonne(L,0,B1).
-afficheColonne([[H1|T1]|T],A,B) :- H1\==[], write(H1), append(T,[T1],L), A1 is A+1, afficheColonne(L,A1,B).
+afficheColonne([[H1|T1]|T],A,B) :- H1\==[],H1 = 1, write("X"), append(T,[T1],L), A1 is A+1, afficheColonne(L,A1,B).
+afficheColonne([[H1|T1]|T],A,B) :- H1\==[],H1 = 2, write("O"), append(T,[T1],L), A1 is A+1, afficheColonne(L,A1,B).
+afficheColonne([[H1|T1]|T],A,B) :- H1\==[],H1 = 0, write("*"), append(T,[T1],L), A1 is A+1, afficheColonne(L,A1,B).
+
+
 
 % Compte le nombre N de de zéro dans L avec count(L,N)
 compter([],0).
@@ -76,8 +80,6 @@ ajouter(C,X,A) :- compter(C,N), N \== 0,ajouterEnFin(X,C,A).
 changeColonne([],_,_,G1,8,G1).
 changeColonne([H|T], X, C, G1, N,Q) :- N \== X, append(G1,[H],G2), N1 is N+1, changeColonne(T,X,C,G2,N1,Q).
 changeColonne([_|T], X, C, G1, X,Q) :- append(G1,[C],G2), N1 is X+1, changeColonne(T,X,C,G2,N1,Q).
-
-%changeColonne([[1,0,0,0,0,0],[1,2,0,0,0,0],[2,1,0,0,0,0],[1,2,1,0,0,0],[1,1,2,1,0,0],[1,1,1,1,0,0],[1,2,0,0,0,0]],4,[0,0,0,0,0,0],[],0,G).
 
 lancerJeu(_) :- G=[[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]], affiche(G,[]), heuristique1(G). % ajouter l'appel à la premiÃ¨re heuristique
 
