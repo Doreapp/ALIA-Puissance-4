@@ -88,10 +88,11 @@ changeColonne([],_,_,G1,8,G1).
 changeColonne([H|T], X, C, G1, N,Q) :- N \== X, append(G1,[H],G2), N1 is N+1, changeColonne(T,X,C,G2,N1,Q).
 changeColonne([_|T], X, C, G1, X,Q) :- append(G1,[C],G2), N1 is X+1, changeColonne(T,X,C,G2,N1,Q).
 
-lancerJeu(_) :- G=[[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]], affiche(G,[]), heuristique1(G). % ajouter l'appel à la premiÃ¨re heuristique
+lancerJeu(_) :- G=[[0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0]], affiche(G,[]), heuristique1(G). % ajouter l'appel à la premiÃ¨re heuristique
 
 heuristique1(G) :- gagner(1,G).
 heuristique1(G) :- gagner(2,G).
+heuristique1(G) :- finis(G).
 heuristique1(G) :- movePourGagner(1, G, G1),
     write("1 joue pour gagner : "), nl,
     affiche(G1,[]),
@@ -103,11 +104,10 @@ heuristique1(G) :- movePourEmpecherGagner(1, 2, G, G1),
 
 heuristique1(G) :- heuristiqueRandom(1, G, G1),
     heuristique2(G1).
-% heuristique1(G) :- movePourGagner(1, G, G1, 1), write("1 joue pour
-% gagner"), heuristique2(G1).
-%
+
 heuristique2(G) :- gagner(1,G).
 heuristique2(G) :- gagner(2,G).
+heuristique2(G) :- finis(G).
 heuristique2(G) :- movePourGagner(2, G, G1),
     write("2 joue pour gagner : "), nl,
     affiche(G1,[]),
@@ -115,7 +115,7 @@ heuristique2(G) :- movePourGagner(2, G, G1),
 heuristique2(G) :- movePourEmpecherGagner(2, 1, G, G1),
     write("2 joue pour empecher de gagner 1 : "), nl,
     affiche(G1,[]),
-    heuristique2(G1).
+    heuristique1(G1).
 
 heuristique2(G) :- heuristiqueRandom(2, G, G1),heuristique1(G1).
 
@@ -151,7 +151,7 @@ movePourEmpecherGagner(JoueurJouant, JoueurAdverse, Grille, Grille1) :- jouerMov
     jouerMove(JoueurJouant, Grille, Coup, Grille1).
 
 % Check si la grille est complete
-finis([]).
+finis([]) :- write("Fini : match nul").
 finis([H|T]) :- compter(H,Y), Y==0, finis(T).
 
 
