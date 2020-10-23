@@ -83,10 +83,11 @@ lancerJeu(_) :- G=[[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,
 
 heuristique1(G) :- gagner(1,G).
 heuristique1(G) :- gagner(2,G).
-heuristique1(G) :- random2(G). %jouerJoueur1(G)
+heuristique1(G) :- random2(G). %jouerJoueur1(G).
 heuristique2(G) :- gagner(1,G).
 heuristique2(G) :- gagner(2,G).
 heuristique2(G) :- random(G). %jouerJoueur2(G)
+
 
 jouerJoueur1(G) :- write("Joue, J1 :"), read(L), nth1(L,G,C), ajouter(C, 1, C1), changeColonne(G,L,C1,[],1,G1), affiche(G1,[]), heuristique2(G1). % gagnant(), jouerJoueur2().
 
@@ -96,3 +97,9 @@ random(G) :- random_between(1,7,X), nth1(X,G,C), compter(C,Y), Y\==0, write("Ran
 
 random2(G) :- random_between(1,7,X), nth1(X,G,C), compter(C,Y), Y\==0, write("Random joue "), write(X), nl, ajouter(C, 1, C1), changeColonne(G,X,C1,[],1,G1), affiche(G1,[]), heuristique2(G1).
 
+% Crée la grille G1 à partir de G dans laquelle le joueur J à joué la
+% colonne L, si possible.
+jouerMove(J, G, L, G1) :- nth1(L,G,C), compter(C,Y), Y\==0, ajouter(C, J, C1), changeColonne(G,L,C1,[],1,G1).
+
+% la colonne C ferrai gagner le joueur J joue un move pour gagner si possible
+movePourGagner(J, G, C) :- jouerMove(J, G, C, G1), gagner(J, G1).
