@@ -29,26 +29,30 @@ gagnerLignes(J, G):- gagnerLigne(J, 6, G).
 
 % Regarder si le joueur J a gagnÃƒÂ©
 % 1. Les colonnes
-gagner(J, G):- gagnerColonne(J, G).
+gagner(J, G):- gagnerColonne(J, G),afficherGagnant(J).
 
 % 2. Les lignes
-gagner(J,G):- gagnerLignes(J,G).
+gagner(J,G):- gagnerLignes(J,G),afficherGagnant(J).
 
 % 3.1. Recherche les diagonales (type \) dans G
-gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Récup 4 colonnes
+gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Rï¿½cup 4 colonnes
 		   element(I1,C1,J), % qui contiennent J
                    element(I2,C2,J),
 		   element(I3,C3,J),
 		   element(I4,C4,J),
-                   I2 is I1+1, I3 is I2+1, I4 is I3+1. % Et chacun sont sur une même diagonale \
+                   I2 is I1+1, I3 is I2+1, I4 is I3+1,afficherGagnant(J). % Et chacun sont sur une mï¿½me diagonale \
 
 % 3.2. Recherche les diagonales (type /) dans G
-gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Récup 4 colonnes
+gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Rï¿½cup 4 colonnes
 		   element(I1,C1,J), % qui contiennent J
                    element(I2,C2,J),
 		   element(I3,C3,J),
 		   element(I4,C4,J),
-                   I2 is I1-1, I3 is I2-1, I4 is I3-1. % Et chacun sont sur une même diagonale /
+                   I2 is I1-1, I3 is I2-1, I4 is I3-1,afficherGagnant(J). % Et chacun sont sur une mï¿½me diagonale /
+
+%Afficher gagnant
+
+afficherGagnant(J):- write("Le joueur "),write(J),write(" a gagne"),nl.
 
 % Affiche La grille L
 affiche([],L) :- afficheColonne(L,0,0).
@@ -111,7 +115,7 @@ joueRandom(Joueur, Grille, _, 0, _, Grille1) :- heuristiqueRandom(Joueur, Grille
 
 
 
-% Crée la grille G1 à partir de G dans laquelle le joueur J à joué la
+% Crï¿½e la grille G1 ï¿½ partir de G dans laquelle le joueur J ï¿½ jouï¿½ la
 % colonne L, si possible.
 jouerMove(J, G, L, G1) :- nth1(L,G,C), compter(C,Y), Y\==0, ajouter(C, J, C1), changeColonne(G,L,C1,[],1,G1).
 
