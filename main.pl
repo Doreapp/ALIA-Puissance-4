@@ -38,7 +38,8 @@ gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Recup 4 colonnes
 		   element(I3,C3,J),
 
                    I4 is I3+1,
-		   element(I4,C4,J).
+		   element(I4,C4,J),
+                   afficherGagnant(J).
                    % Et chacun sont sur une meme diagonale \
 
 
@@ -50,7 +51,8 @@ gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Recup 4 colonnes
                    I3 is I2-1,
 		   element(I3,C3,J),
                    I4 is I3-1,
-		   element(I4,C4,J).
+		   element(I4,C4,J),
+                   afficherGagnant(J).
                    % Et chacun sont sur une meme diagonale /
 
 %Afficher gagnant
