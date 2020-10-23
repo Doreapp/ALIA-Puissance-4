@@ -35,20 +35,20 @@ gagner(J, G):- gagnerColonne(J, G),afficherGagnant(J).
 gagner(J,G):- gagnerLignes(J,G),afficherGagnant(J).
 
 % 3.1. Recherche les diagonales (type \) dans G
-gagner(J,G):- sousliste([C1,C2,C3,C4], G), % R�cup 4 colonnes
+gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Recup 4 colonnes
 		   element(I1,C1,J), % qui contiennent J
                    element(I2,C2,J),
 		   element(I3,C3,J),
 		   element(I4,C4,J),
-                   I2 is I1+1, I3 is I2+1, I4 is I3+1,afficherGagnant(J). % Et chacun sont sur une m�me diagonale \
+                   I2 is I1+1, I3 is I2+1, I4 is I3+1,afficherGagnant(J). % Et chacun sont sur une meme diagonale \
 
 % 3.2. Recherche les diagonales (type /) dans G
-gagner(J,G):- sousliste([C1,C2,C3,C4], G), % R�cup 4 colonnes
+gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Recup 4 colonnes
 		   element(I1,C1,J), % qui contiennent J
                    element(I2,C2,J),
 		   element(I3,C3,J),
 		   element(I4,C4,J),
-                   I2 is I1-1, I3 is I2-1, I4 is I3-1,afficherGagnant(J). % Et chacun sont sur une m�me diagonale /
+                   I2 is I1-1, I3 is I2-1, I4 is I3-1,afficherGagnant(J). % Et chacun sont sur une meme diagonale /
 
 %Afficher gagnant
 
@@ -66,7 +66,7 @@ afficheColonne([[H1|T1]|T],A,B) :- H1\==[],H1 == 0, write("."), append(T,[T1],L)
 
 
 
-% Compte le nombre N de de zéro dans L avec count(L,N)
+% Compte le nombre N de de zero dans L avec count(L,N)
 compter([],0).
 compter([0|T],N) :- compter(T,N1), N is N1 + 1.
 compter([X|T],N) :- X \== 0, compter(T,N).
@@ -80,7 +80,7 @@ ajouterEnFin(X,[H|L1],[H|L2]):- ajouterEnFin(X,L1,L2).
 ajouter(C,_,C) :- compter(C,0).
 ajouter(C,X,A) :- compter(C,N), N \== 0,ajouterEnFin(X,C,A).
 
-% Q renvoi la liste passé en premier paramÃ¨tre mais la colonne X est changée par la colonne C
+% Q renvoi la liste passé en premier paramatre mais la colonne X est changée par la colonne C
 changeColonne([],_,_,G1,8,G1).
 changeColonne([H|T], X, C, G1, N,Q) :- N \== X, append(G1,[H],G2), N1 is N+1, changeColonne(T,X,C,G2,N1,Q).
 changeColonne([_|T], X, C, G1, X,Q) :- append(G1,[C],G2), N1 is X+1, changeColonne(T,X,C,G2,N1,Q).
@@ -115,7 +115,7 @@ joueRandom(Joueur, Grille, _, 0, _, Grille1) :- heuristiqueRandom(Joueur, Grille
 
 
 
-% Cr�e la grille G1 � partir de G dans laquelle le joueur J � jou� la
+% Cree la grille G1 a partir de G dans laquelle le joueur J a joue la
 % colonne L, si possible.
 jouerMove(J, G, L, G1) :- nth1(L,G,C), compter(C,Y), Y\==0, ajouter(C, J, C1), changeColonne(G,L,C1,[],1,G1).
 
