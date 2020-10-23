@@ -123,6 +123,9 @@ jouerMove(J, G, L, G1) :- nth1(L,G,C), compter(C,Y), Y\==0, ajouter(C, J, C1), c
 movePourGagner(J, G, G1, N) :- jouerMove(J, G, N, G1), gagner(J, G1).
 movePourGagner(J, G, G1, N) :-  N1 is N+1, jouerMove(J, G, N1, G1), gagner(J, G1).
 
+% Check si la grille est complete
+finis([]) :- write("match nul!").
+finis([H|T]) :- compter(H,Y), Y==0, finis(T).
 
 
 
