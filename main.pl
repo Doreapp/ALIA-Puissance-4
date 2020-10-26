@@ -102,7 +102,14 @@ heuristique1(G) :- movePourEmpecherGagner(1, 2, G, G1),
     affiche(G1,[]),
     heuristique2(G1).
 
+heuristique1(G) :- heuristiqueRandomAvecAnticipation(1,G,G1),
+    write("RandomAvecAnticipation (1) joue"), nl,
+    affiche(G1,[]),
+    heuristique2(G1).
+
 heuristique1(G) :- heuristiqueRandom(1, G, G1),
+    write("Random (2) joue "), nl,
+    affiche(G1,[]),
     heuristique2(G1).
 
 heuristique2(G) :- gagner(1,G).
@@ -117,7 +124,15 @@ heuristique2(G) :- movePourEmpecherGagner(2, 1, G, G1),
     affiche(G1,[]),
     heuristique1(G1).
 
-heuristique2(G) :- heuristiqueRandom(2, G, G1),heuristique1(G1).
+heuristique2(G) :- heuristiqueRandomAvecAnticipation(2,G,G1),
+    write("RandomAvecAnticipation (2) joue"), nl,
+    affiche(G1,[]),
+    heuristique1(G1).
+
+heuristique2(G) :- heuristiqueRandom(2, G, G1),
+    write("Random (2) joue"), nl,
+    affiche(G1,[]),
+    heuristique1(G1).
 
 jouerJoueur1(G) :- write("Joue, J1 :"), read(L), nth1(L,G,C), ajouter(C, 1, C1), changeColonne(G,L,C1,[],1,G1), affiche(G1,[]), heuristique2(G1). % gagnant(), jouerJoueur2().
 
@@ -129,11 +144,17 @@ heuristiqueRandom(Joueur, Grille, Grille1) :- random_between(1,7,Index), nth1(In
 % joue un coup random
 joueRandom(Joueur, Grille, Index, Count, Colonne, Grille1) :- Count\==0,
     ajouter(Colonne, Joueur, Colonne1),
-    changeColonne(Grille,Index,Colonne1,[],1,Grille1),
-    write("Random ("),write(Joueur),write(") joue "),
-    write(Index), nl,
-    affiche(Grille1,[]).
+    changeColonne(Grille,Index,Colonne1,[],1,Grille1).
 joueRandom(Joueur, Grille, _, 0, _, Grille1) :- heuristiqueRandom(Joueur, Grille, Grille1).
+
+% joue un coup random qui ne mene pas à la victoire de l'adversaire
+heuristiqueRandomAvecAnticipation(Joueur, Grille, Grille1) :- joueurOppose(Joueur, JoueurOp), heuristiqueRandom(Joueur, Grille, Grille1), testMovePourGagner(JoueurOp, Grille1, _).
+
+test(Joueur, Grille, Grille1) :- joueurOppose(Joueur, JoueurOp), nth1(3,Grille,Colonne), compter(Colonne,Count), joueRandom(Joueur, Grille, 3, Count, Colonne, Grille1) , testMovePourGagner(JoueurOp, Grille1, X), X == 0.
+
+%renvoi le joueur oppose
+joueurOppose(1,2).
+joueurOppose(2,1).
 
 
 % Cree la grille G1 a partir de G dans laquelle le joueur J a joue la
@@ -145,6 +166,10 @@ jouerMove(J, G, L, G1) :- nth1(L,G,C), compter(C,Y), Y\==0, ajouter(C, J, C1), c
 
 movePourGagner(Joueur, Grille, Grille1) :- jouerMove(Joueur, Grille, _, Grille1),
     gagner(Joueur, Grille1).
+
+% renvoi false si possibilite de gagner et true autrement
+testMovePourGagner(Joueur, Grille, G) :- movePourGagner(Joueur, Grille, G), !, fail.
+testMovePourGagner(_Joueur, _Grille, _G).
 
 movePourEmpecherGagner(JoueurJouant, JoueurAdverse, Grille, Grille1) :- jouerMove(JoueurAdverse, Grille, Coup, Grille2),
     gagner(JoueurAdverse, Grille2),
