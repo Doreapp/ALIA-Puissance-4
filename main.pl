@@ -174,8 +174,6 @@ joueRandom(Joueur, Grille, _, 0, _, Grille1) :- heuristiqueRandom(Joueur, Grille
 % joue un coup random qui ne mene pas � la victoire de l'adversaire
 heuristiqueRandomAvecAnticipation(Joueur, Grille, Grille1) :- joueurOppose(Joueur, JoueurOp), heuristiqueRandom(Joueur, Grille, Grille1), testMovePourGagner(JoueurOp, Grille1, _).
 
-test(Joueur, Grille, Grille1) :- joueurOppose(Joueur, JoueurOp), nth1(3,Grille,Colonne), compter(Colonne,Count), joueRandom(Joueur, Grille, 3, Count, Colonne, Grille1) , testMovePourGagner(JoueurOp, Grille1, X), X == 0.
-
 %renvoi le joueur oppose
 joueurOppose(1,2).
 joueurOppose(2,1).
