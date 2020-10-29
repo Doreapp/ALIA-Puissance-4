@@ -14,4 +14,3 @@ git log : 		pour voir les commit
 git status : 	pour voir les changements avec origin
 ```
 
-Heuristique possible : Ne pas jouer un coup qui permet à l'autre de gagner
