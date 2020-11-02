@@ -13,7 +13,7 @@ sousliste(ML,[_|T]):-sousliste(ML,T).
 element(N, L, []):- longueur(L, N1), N1 < N.
 element(N, L, X):- nth1(N, L, X).
 
-% * Retourne si le joueur J a gagné sur une colonne *
+% * Retourne si le joueur J a gagne sur une colonne *
 gagnerColonne(J, [H|_]) :- sousliste([J,J,J,J], H).
 gagnerColonne(J, [_|T]) :- T \== [], gagnerColonne(J, T).
 
@@ -105,62 +105,69 @@ heuristiqueMMS(G,L,MMS,G1,JoueurJouant) :- length(L,T), T < 7,ajouterEnFin(-1,L,
 heuristiqueMMS(G,L,_,G1,JoueurJouant) :- max_l(L,X),nth1(I,L,X),jouerMove(JoueurJouant, G, I, G1).
 
 
-lancerJeu(_) :- G=[[0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0]], affiche(G,[]), heuristique1(G). % ajouter l'appel à la premiÃ¨re heuristique
+lancerJeu(_, N1, N2) :- G=[[0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0]], affiche(G,[]), heuristique1(G, N1, N2). % ajouter l'appel à la premiÃ¨re heuristique
 
-heuristique1(G) :- gagner(1,G).
-heuristique1(G) :- gagner(2,G).
-heuristique1(G) :- finis(G).
-heuristique1(G) :- movePourGagner(1, G, G1),
+heuristique1(G,_,_) :- gagner(1,G), afficherGagnant(1), nl.
+heuristique1(G,_,_) :- gagner(2,G), afficherGagnant(2), nl.
+heuristique1(G,_,_) :- finis(G).
+heuristique1(G,N1,N2) :- N1 = 0, jouerJoueur1(G, N1, N2).
+heuristique1(G,N1,_) :- N1 > 1, movePourGagner(1, G, G1),
     write("1 joue pour gagner : "), nl,
     affiche(G1,[]),
     afficherGagnant(1).
 
-heuristique1(G) :- movePourEmpecherGagner(1, 2, G, G1),
+heuristique1(G, N1, N2) :- N1 > 2, movePourEmpecherGagner(1, 2, G, G1),
     write("1 joue pour empecher de gagner 2 : "), nl,
     affiche(G1,[]),
-    heuristique2(G1).
+    heuristique2(G1, N1, N2).
 
-%heuristique1(G) :- heuristiqueRandomAvecAnticipation(1,G,G1),
-%    write("RandomAvecAnticipation (1) joue"), nl,
-%    affiche(G1,[]),
-%    heuristique2(G1).
-
-%heuristique1(G) :- heuristiqueRandom(1, G, G1),
-%    write("Random (2) joue "), nl,
-%    affiche(G1,[]),
-%    heuristique2(G1).
-
-heuristique1(G) :- minmaxStatique(1, G, G1),
+heuristique1(G, N1, N2) :- N1 > 4, minmaxStatique(1, G, G1),
     write("MinMax (1) joue "), nl,
     affiche(G1,[]),
-    heuristique2(G1).
+    heuristique2(G1, N1, N2).
 
-heuristique2(G) :- gagner(1,G).
-heuristique2(G) :- gagner(2,G).
-heuristique2(G) :- finis(G).
-heuristique2(G) :- movePourGagner(2, G, G1),
+heuristique1(G, N1, N2) :- N1 > 3, heuristiqueRandomAvecAnticipation(1,G,G1),
+    write("RandomAvecAnticipation (1) joue"), nl,
+    affiche(G1,[]),
+    heuristique2(G1, N1, N2).
+
+heuristique1(G, N1, N2) :- N1 > 0, heuristiqueRandom(1, G, G1),
+    write("Random (1) joue "), nl,
+    affiche(G1,[]),
+    heuristique2(G1, N1, N2).
+
+heuristique2(G,_,_) :- gagner(1,G), afficherGagnant(1).
+heuristique2(G,_,_) :- gagner(2,G), afficherGagnant(2).
+heuristique2(G,_,_) :- finis(G).
+heuristique2(G,N1 ,N2) :- N2 = 0, jouerJoueur2(G, N1, N2).
+heuristique2(G,_, N2) :- N2 > 1, movePourGagner(2, G, G1),
     write("2 joue pour gagner : "), nl,
     affiche(G1,[]),
     afficherGagnant(2).
-heuristique2(G) :- movePourEmpecherGagner(2, 1, G, G1),
+heuristique2(G, N1, N2) :- N2 > 2, movePourEmpecherGagner(2, 1, G, G1),
     write("2 joue pour empecher de gagner 1 : "), nl,
     affiche(G1,[]),
-    heuristique1(G1).
+    heuristique1(G1, N1, N2).
 
-heuristique2(G) :- heuristiqueRandomAvecAnticipation(2,G,G1),
+heuristique2(G, N1, N2) :- N2 > 4, minmaxStatique(2, G, G1),
+    write("MinMax (2) joue "), nl,
+    affiche(G1,[]),
+    heuristique1(G1, N1, N2).
+
+heuristique2(G, N1, N2) :- N2 > 3, heuristiqueRandomAvecAnticipation(2,G,G1),
     write("RandomAvecAnticipation (2) joue"), nl,
     affiche(G1,[]),
-    heuristique1(G1).
+    heuristique1(G1, N1, N2).
 
-heuristique2(G) :- heuristiqueRandom(2, G, G1),
+heuristique2(G, N1, N2) :- N2 > 0, heuristiqueRandom(2, G, G1),
     write("Random (2) joue"), nl,
     affiche(G1,[]),
-    heuristique1(G1).
+    heuristique1(G1, N1, N2).
 
 
-jouerJoueur1(G) :- write("Joue, J1 :"), read(L), nth1(L,G,C), ajouter(C, 1, C1), changeColonne(G,L,C1,[],1,G1), affiche(G1,[]), heuristique2(G1). % gagnant(), jouerJoueur2().
+jouerJoueur1(G, N1, N2) :- write("Joue, J1 :"), read(L), nth1(L,G,C), ajouter(C, 1, C1), changeColonne(G,L,C1,[],1,G1), affiche(G1,[]), heuristique2(G1, N1, N2). % gagnant(), jouerJoueur2().
 
-jouerJoueur2(G) :- write("Joue, J2 :"), read(L), nth1(L,G,C), ajouter(C, 2, C1), changeColonne(G,L,C1,[],1,G1), affiche(G1,[]), heuristique1(G1).
+jouerJoueur2(G, N1, N2) :- write("Joue, J2 :"), read(L), nth1(L,G,C), ajouter(C, 2, C1), changeColonne(G,L,C1,[],1,G1), affiche(G1,[]), heuristique1(G1, N1, N2).
 
 % joue l'heuristique random J joueur (1 ou 2), G grille
 heuristiqueRandom(Joueur, Grille, Grille1) :- random_between(1,7,Index), nth1(Index,Grille,Colonne), compter(Colonne,Count), joueRandom(Joueur, Grille, Index, Count, Colonne, Grille1).
