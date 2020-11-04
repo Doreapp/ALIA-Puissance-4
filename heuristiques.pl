@@ -2,7 +2,7 @@
 :- consult(analyseGagnant).
 :- consult(gereTableau).
 :- consult(affichage).
-
+:- consult(minMax).
 
 % ==================================================
 % Heuristique 0 : pas d'IA : joueur humain
@@ -83,7 +83,9 @@ heuristiqueMMS(G,L,MMS,G1,JoueurJouant) :- length(L,T), T < 7,J is T+1, %Trouve 
 heuristiqueMMS(G,L,MMS,G1,JoueurJouant) :- length(L,T), T < 7,ajouterEnFin(-1,L,L1),heuristiqueMMS(G,L1,MMS,G1,JoueurJouant).
 heuristiqueMMS(G,L,_,G1,JoueurJouant) :- max_l(L,X),nth1(I,L,X),jouerMove(JoueurJouant, G, I, G1).
 
-
+% ==================================================
+% MinMax
+% Voir fichier minMax.pl
 
 % ==================================================
 % Clause heuristique qui execute l'heuristique passé en paramètre
@@ -125,6 +127,12 @@ heuristique(G,Joueur,[N1|N2],Etat,Res) :- nth1(Joueur,[N1|N2],NIV), NIV = 5, min
 % Si un joueur a une heuristique RandomAvecAnticipation, je l'appelle pour ce joueur
 heuristique(G,Joueur,[N1|N2],Etat,Res) :- nth1(Joueur,[N1|N2],NIV), NIV = 4, heuristiqueRandomAvecAnticipation(Joueur,G,G1),
     ecrit(Joueur,Etat), ecrit(" joue RandomAvecAnticipation",Etat), retour(1,Etat),
+    affiche(G1,[],Etat),
+    joueurOppose(Joueur, JoueurOp),
+    heuristique(G1,JoueurOp, [N1|N2],Etat,Res).
+
+heuristique(G,Joueur,[N1|N2],Etat,Res) :- nth1(Joueur,[N1|N2],NIV), NIV = 6, minMax(G,Joueur,G1),
+    ecrit(Joueur,Etat), ecrit(" joue MinMaxNew",Etat), retour(1,Etat),
     affiche(G1,[],Etat),
     joueurOppose(Joueur, JoueurOp),
     heuristique(G1,JoueurOp, [N1|N2],Etat,Res).

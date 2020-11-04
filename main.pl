@@ -18,7 +18,7 @@ lancerJeu(N1, N2, Etat, Res) :- G=[[0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0],[
 % stats permet de lancer 80 répétitions de jeu entre deux heuristique N1
 % et N2. J1, J2 et Nul sont des compteurs des résultats des joueurs
 % Pour lancer une stats : stats(N1,N2,0,0,0,0,0).
-stats(N1,N2,80,J1,J2,Nul) :- write(N1), write(" : "), write(J1), nl, write(N2), write(" : "), write(J2), nl, write("Nul : "), write(Nul).
+stats(N1,N2,50,J1,J2,Nul) :- write(N1), write(" : "), write(J1), nl, write(N2), write(" : "), write(J2), nl, write("Nul : "), write(Nul).
 stats(N1,N2,Cpt,J1,J2,Nul) :- lancerJeu(N1,N2,0,X), Cpt1 is Cpt+1, ((X == 1, J1b is J1+1, stats(N1,N2,Cpt1,J1b,J2,Nul));(X == 2, J2b is J2+1, stats(N1,N2,Cpt1,J1,J2b,Nul));(X == 0, Nulb is Nul+1, stats(N1,N2,Cpt1,J1,J2,Nulb))).
 
 
