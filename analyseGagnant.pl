@@ -41,5 +41,6 @@ gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Recup 4 colonnes
 
 
 % Check si la grille est complete
-finis([]) :- write("Fini : match nul").
-finis([H|T]) :- compter(H,Y), Y==0, finis(T).
+finis([],0).
+finis([],1) :- write("Fini : match nul").
+finis([H|T],Etat) :- compter(H,Y), Y==0, finis(T,Etat).
