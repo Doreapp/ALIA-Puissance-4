@@ -29,7 +29,7 @@ arg1: niv de l'IA du joueur 1<br/>
 arg2: niv de l'IA du joueur 2<br/>
 Etat: Spécifie si l'on souhaite un affichage du jeu ou non. (utile pour stats)<br/>
 Res : Retourne le joueur gagnant<br/>
-Ex : lancerJeu(3,5,1,R).<br/>
+Ex  : ``lancerJeu(3,5,1,R).<br/>``
 <br/>
 
  - Lancer une statistique<br/>
@@ -41,3 +41,4 @@ Ex : lancerJeu(3,5,1,R).<br/>
  J1 : Nombre de jeu gagner par le joueur 1<br/>
  J2 : Nombre de jeu gagner par le joueur 2<br/>
  Nul: Nombre de jeu nul<br/>
+ Ex : ``stats(3,5,0,0,0,0,0).``
