@@ -14,23 +14,30 @@ git log : 		pour voir les commit
 git status : 	pour voir les changements avec origin
 ```
  # Main.pl
-Lancer le jeu :
- ``lancerJeu(arg1, arg2).``
-arg1: niv de l'IA du joueur 1
-arg2: niv de l'IA du joueur 2
-
-Niveau de l'IA:
- 0: pas d'IA, joueur humain
- 1: aléatoire
- 2: s'il existe, joue un coup gagnant
- 3: 2 + s'il existe, empèche un coup gagnant adverser
- 4: 2 + 3 + joue un coup random sans donné un coup gagnant à l'adversaire
- 5: 2 + 3 + MinMas statique
  
- # Stats.pl
-Permet de faire des stats entre 2 heuristiques
-Fichier à par car les affichages sont supprimés
-Lancer une stats :
- ``stats(arg1,arg2,0,0,0,0).``
- arg1: niv de l'IA du joueur 1
- arg2: niv de l'IA du joueur 2
+ Niveau de l'IA:<br/>
+ 0: pas d'IA, joueur humain<br/>
+ 1: aléatoire<br/>
+ 2: s'il existe, joue un coup gagnant<br/>
+ 3: 2 + s'il existe, empèche un coup gagnant adverser<br/>
+ 4: 2 + 3 + joue un coup random sans donné un coup gagnant à l'adversaire<br/>
+ 5: 2 + 3 + MinMas statique<br/>
+ <br/>
+- Lancer un jeu :<br/>
+ ``lancerJeu(arg1, arg2, Etat, Res).``<br/>
+arg1: niv de l'IA du joueur 1<br/>
+arg2: niv de l'IA du joueur 2<br/>
+Etat: Spécifie si l'on souhaite un affichage du jeu ou non. (utile pour stats)<br/>
+Res : Retourne le joueur gagnant<br/>
+Ex : lancerJeu(3,5,1,R).<br/>
+<br/>
+
+ - Lancer une statistique<br/>
+ Lance une statistique entre 2 IA (N1 et N2) sur 80 jeux<br/>
+  ``stats(N1,N2,Cpt,J1,J2,Nul).``<br/>
+ N1 : niv de l'IA du joueur 1<br/>
+ N2 : niv de l'IA du joueur 2<br/>
+ Cpt: Compteur du nombre de jeu. Compte jusqu'à 80<br/>
+ J1 : Nombre de jeu gagner par le joueur 1<br/>
+ J2 : Nombre de jeu gagner par le joueur 2<br/>
+ Nul: Nombre de jeu nul<br/>
