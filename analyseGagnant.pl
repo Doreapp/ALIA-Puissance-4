@@ -18,25 +18,25 @@ gagner(J,G):- gagnerLignes(J,G).
 
 % 3.1. Recherche les diagonales (type \) dans G
 gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Recup 4 colonnes
-		   element(I1,C1,J), % qui contiennent J
+		   nth1(I1,C1,J), % qui contiennent J
                    I2 is I1+1,
-                   element(I2,C2,J),
+                   nth1(I2,C2,J),
                    I3 is I2+1,
-		   element(I3,C3,J),
+		   nth1(I3,C3,J),
 
                    I4 is I3+1,
-		   element(I4,C4,J).
+		   nth1(I4,C4,J).
                    % Et chacun sont sur une meme diagonale \
 
 % 3.2. Recherche les diagonales (type /) dans G
 gagner(J,G):- sousliste([C1,C2,C3,C4], G), % Recup 4 colonnes
-		   element(I1,C1,J), % qui contiennent J
+		   nth1(I1,C1,J), % qui contiennent J
                    I2 is I1-1,
-                   element(I2,C2,J),
+                   nth1(I2,C2,J),
                    I3 is I2-1,
-		   element(I3,C3,J),
+		   nth1(I3,C3,J),
                    I4 is I3-1,
-		   element(I4,C4,J).
+		   nth1(I4,C4,J).
                    % Et chacun sont sur une meme diagonale /
 
 
