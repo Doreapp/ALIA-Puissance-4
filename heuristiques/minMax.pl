@@ -1,6 +1,6 @@
 % Heuristique minMax
 minMax(G,J,G1) :- trouveCoup(G,J,1,C,-2000,1),
-    joueCoup(G,J,C,G1).
+    jouerMove(J,G,C,G1).
 
 % Renvoi le coup qui a le meilleur score sur les 8 prochains coups
 trouveCoup(_,_,C,C,_,8).
@@ -18,14 +18,14 @@ trouveCoup(G,J,CP,CF,SP,Cpt) :-
 calculCoup(_,_,_,S,S,9).
 calculCoup(G,J,C,SP,SF,1) :-
     calculScore(G,J,C,S),
-    joueCoup(G,J,C,G1),
+    jouerMove(J,G,C,G1),
     ST is SP+S,
     joueurOppose(J,J2),
     calculCoup(G1,J2,C,ST,SF,2).
 calculCoup(G,J,CF,SP,SF,Cpt) :-
     Cpt < 9, Cpt > 1,
     coup(G,J,1,C,-2000,S,1),
-    joueCoup(G,J,C,G1),
+    jouerMove(J,G,C,G1),
     Cpt1 is Cpt+1,
     ((1 is mod(Cpt,2),ST is SP+S/(Cpt-1));
     (0 is mod(Cpt,2), ST is SP-S/(Cpt-1))),
@@ -53,13 +53,6 @@ calculScore(Grille,Joueur,IndexColonne,Score) :-
     scoreDiag1(Grille,Joueur,IndexColonne,IndexLigne,R3),
     scoreDiag2(Grille,Joueur,IndexColonne,IndexLigne,R4),
     Score is R1+R2+R3+R4)).
-
-% Joue le Coup pour le Joueur sur la Grille et renvoi la nouvelle
-% Grille1
-joueCoup(Grille,Joueur,Coup,Grille1) :-
-    nth1(Coup,Grille,Colonne),
-    ajouterEnFin(Joueur,Colonne,Colonne1),
-    changeColonne(Grille,Coup,Colonne1,[],1,Grille1).
 
 % Renvoi le nombre de symbole aligné horizontalement du joueur J si il
 % joue la case (X,Y)

@@ -1,4 +1,4 @@
-:- consult(heuristiques).
+:- consult(heuristique).
 
 % N1 est le niveau de l'IA du joueur 1, N2 niveau de l'IA pour N2.
 % Chaque niveau dIA comprend les fonctionnalités des niveaud d'IA précédente
