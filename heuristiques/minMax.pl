@@ -17,6 +17,7 @@ trouveCoup(G,J,CP,CF,SP,Cpt) :-
 % sont faibles (pondération)
 calculCoup(_,_,_,S,S,9).
 calculCoup(G,J,C,SP,SF,1) :-
+    nth1(C,G,Col), compter(Col,Y), Y\==0,
     calculScore(G,J,C,S),
     jouerMove(J,G,C,G1),
     ST is SP+S,
@@ -24,6 +25,7 @@ calculCoup(G,J,C,SP,SF,1) :-
     calculCoup(G1,J2,C,ST,SF,2).
 calculCoup(G,J,CF,SP,SF,Cpt) :-
     Cpt < 9, Cpt > 1,
+    nth1(C,G,Col), compter(Col,Y), Y\==0,
     coup(G,J,1,C,-2000,S,1),
     jouerMove(J,G,C,G1),
     Cpt1 is Cpt+1,
@@ -31,6 +33,8 @@ calculCoup(G,J,CF,SP,SF,Cpt) :-
     (0 is mod(Cpt,2), ST is SP-S/(Cpt-1))),
     joueurOppose(J,J2),
     calculCoup(G1,J2,CF,ST,SF,Cpt1).
+calculCoup(G,_,C,_,-2000,1) :- nth1(C,G,Col), compter(Col,Y), Y = 0.
+calculCoup(G,J,C,SP,SF,Cpt) :- nth1(C,G,Col), compter(Col,Y), Y = 0, Cpt1 is Cpt+1, calculCoup(G,J,C,SP,SF,Cpt1).
 
 % Pour une grille, renvoi le coup avec le meilleur score et son score
 % associé
