@@ -131,6 +131,7 @@ heuristique(G,Joueur,[N1|N2],Etat,Res) :- nth1(Joueur,[N1|N2],NIV), NIV = 4, heu
     joueurOppose(Joueur, JoueurOp),
     heuristique(G1,JoueurOp, [N1|N2],Etat,Res).
 
+% Appel de l'heuristique MinMax
 heuristique(G,Joueur,[N1|N2],Etat,Res) :- nth1(Joueur,[N1|N2],NIV), NIV = 6, minMax(G,Joueur,G1),
     ecrit(Joueur,Etat), ecrit(" joue MinMaxNew",Etat), retour(1,Etat),
     affiche(G1,[],Etat),
