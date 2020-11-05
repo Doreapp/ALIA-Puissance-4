@@ -33,12 +33,12 @@ Ex  : ``lancerJeu(3,5,1,R).<br/>``
 <br/>
 
  - Lancer une statistique<br/>
- Lance une statistique entre 2 IA (N1 et N2) sur 80 jeux<br/>
+ Lance une statistique entre 2 IA (N1 et N2) sur 50 jeux<br/>
   ``stats(N1,N2,Cpt,J1,J2,Nul).``<br/>
  N1 : niv de l'IA du joueur 1<br/>
  N2 : niv de l'IA du joueur 2<br/>
- Cpt: Compteur du nombre de jeu. Compte jusqu'à 80<br/>
+ Cpt: Compteur du nombre de jeu. Compte jusqu'à 50<br/>
  J1 : Nombre de jeu gagner par le joueur 1<br/>
  J2 : Nombre de jeu gagner par le joueur 2<br/>
  Nul: Nombre de jeu nul<br/>
- Ex : ``stats(3,5,0,0,0,0,0).``
+ Ex : ``stats(3,5,0,0,0,0).``
