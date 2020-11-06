@@ -1,18 +1,14 @@
 # ALIA-Puissance-4
-Repo Prolog pour la 4IF : Puissance 4 
 
-Quelques commandes git :
-```
-git branch [nomBranch]
-git checkout [nomBranch]
-git add [fichiers]
-git commit -m "[message]" 
-git push -u origin [nomBranch]
+Hexanome 4313 :
 
+Damien Carreau
+Enzo Boscher
+Alexandre Bonhomme
+Pierre-Louis Jallerat
+Mickael Ben Said
+Antoine Mandin
 
-git log : 		pour voir les commit
-git status : 	pour voir les changements avec origin
-```
  # Main.pl
  
  Niveau de l'IA:<br/>
